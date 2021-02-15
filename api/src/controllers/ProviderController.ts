@@ -35,7 +35,7 @@ class ProviderController {
         try {
             await ProviderService.deleteProviders(request.params.id);
 
-            return response.status(200).json({ message: 'Empresa deletada' });
+            return response.status(200).json({ message: 'Fornecedor deletado' });
 
         } catch(err) {
             console.log(err)

@@ -1,3 +1,4 @@
+import { ProviderRegisterDTO } from '@dto/provider/ProviderDTO';
 import { Provider } from '@models/Provider';
 
 class ProviderService {
@@ -13,13 +14,13 @@ class ProviderService {
         });
 
         if (!provider) {
-            throw new Error('Empresa não existe');
+            throw new Error('Fornecedor não existe');
         }
 
         return provider;
     }
 
-    async registerProviders(data: Provider) {
+    async registerProviders(data: ProviderRegisterDTO) {
         const { email } = data;
 
         const exists = await Provider.findOne({
@@ -42,7 +43,7 @@ class ProviderService {
         });
 
         if (!exists) {
-            throw new Error('Empresa não existe');
+            throw new Error('Fornecedor não existe');
         }
 
         await Provider.destroy({

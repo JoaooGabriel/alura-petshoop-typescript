@@ -1,0 +1,54 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+      "target": "es2015",
+      "module": "commonjs",
+      "lib": ["ESNext",
+          "DOM"
+      ],
+      "declaration": true,
+      "sourceMap": true,
+      "removeComments": true,
+      "strict": false,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "noImplicitThis": true,
+      "alwaysStrict": true,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "noImplicitReturns": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "noFallthroughCasesInSwitch": true,
+      "moduleResolution": "node",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "strictPropertyInitialization": false,
+      "baseUrl": ".",
+      "paths": {
+          "@config/*": ["./src/config/*"],
+          "@controllers/*": ["./src/controllers/*"],
+          "@repositories/*": ["src/repositories/*"],
+          "@models/*": ["src/database/models/*"],
+          "@services/*": ["./src/services/*"],
+          "@typing/*": ["src/types/*"],
+          "@utils/*": ["./src/utils*"],
+          "@router/*": ["./src/router/*"],
+          "@helpers/*": ["./src/helpers/*"],
+          "@middlewares/*": ["./src/middlewares/*"],
+          "@dto/*": ["./src/dto/*"]
+      },
+      "rootDirs": [
+          "."
+      ],
+      "outDir": "./dist",
+  },
+  "include": [
+      "src/**/*",
+      "test/**/*"
+  ],
+  "exclude": [
+      "node_modules",
+      "dist"
+  ],
+}

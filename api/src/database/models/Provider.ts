@@ -2,6 +2,7 @@ import { Table, Model, DataType } from "sequelize-typescript";
 import { v4 as uuid } from "uuid";
 
 import connection from "../connections";
+import { ProviderCategory } from '@typing/Provider';
 
 @Table
 class Provider extends Model {
@@ -30,7 +31,7 @@ Provider.init(
     },
 
     category: {
-      type: DataType.ENUM('ração', 'brinquedos'),
+      type: DataType.ENUM(ProviderCategory.BRINQUEDO, ProviderCategory.RACAO),
       allowNull: true
     },
   },

@@ -31,7 +31,21 @@ class ProductController {
     }
 
     public async showByProvidersId (request: Request, response: Response, next: NextFunction): Promise<Response> {
-        return response.json({ message: 'Controle dos produtos' });
+        try {
+            const products = await ProductService.getProductsByProvidersId(request.params.id)
+            return response.status(StatusCode.SUCCESS).json({ products });
+        } catch(err) {
+            console.log(err);
+            if (err instanceof ValidationError) {
+                return response.status(err.statusCode).json({ errors: err.errors });
+            }
+
+            if (err instanceof ServiceError) {
+                return response.status(err.statusCode).json({ error: err.message });
+            }
+        }
+
+        return response.status(StatusCode.INTERNAL_ERROR).json({ error: 'Erro no servidor' });
     }
 
     public async store (request: Request, response: Response, next: NextFunction): Promise<Response> {

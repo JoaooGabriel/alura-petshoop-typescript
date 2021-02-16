@@ -1,5 +1,5 @@
 import { Product } from "@models/Product";
-import { NotFoundError } from '@helpers/response/Error';
+import { NotFoundError } from "@helpers/response/Error";
 import { ProductsRegisterDTO } from "@dto/products/ProductDTO";
 import ProductRepository from "@repositories/ProductRepository";
 
@@ -11,31 +11,44 @@ class ProductService {
   }
 
   async getProductsById(id: string) {
-      const product = await Product.findOne({
-        where: { id: id }
-      });
+    const product = await Product.findOne({
+      where: { id: id },
+    });
 
-      if (!product) {
-        throw new NotFoundError("Fornecedor não existe");
-      }
+    if (!product) {
+      throw new NotFoundError("Fornecedor não existe");
+    }
 
-      return product;
+    return product;
   }
 
-  async getProductsByProvidersId() {}
+  async getProductsByProvidersId(id: string) {
+    const exists = await ProductRepository.existsProvider(id);
+
+    if (!exists) {
+      throw new NotFoundError("Fornecedor não existe");
+    }
+
+    const products = await Product.findAll({
+      where: { providerId: id },
+      limit: 5,
+    });
+
+    return products;
+  }
 
   async registerProducts(data: ProductsRegisterDTO) {
-      const { providerId } = data;
+    const { providerId } = data;
 
-      const existsProvider = await ProductRepository.existsProvider(providerId);
+    const existsProvider = await ProductRepository.existsProvider(providerId);
 
-      if(!existsProvider) {
-        throw new NotFoundError("Fornecedor não existe");
-      }
-      
-      const product = await Product.create(data);
+    if (!existsProvider) {
+      throw new NotFoundError("Fornecedor não existe");
+    }
 
-      return product;
+    const product = await Product.create(data);
+
+    return product;
   }
 }
 

@@ -1,56 +1,70 @@
-import { ProviderRegisterDTO } from '@dto/provider/ProviderDTO';
-import { Provider } from '@models/Provider';
+import { ProviderRegisterDTO } from "@dto/provider/ProviderDTO";
+import { Provider } from "@models/Provider";
 
 class ProviderService {
-    async findAll() {
-        const providers = await Provider.findAll();
+  async findAll() {
+    const providers = await Provider.findAll();
 
-        return providers;
+    return providers;
+  }
+
+  async getProviderById(id: string) {
+    const provider = await Provider.findOne({
+      where: { id: id },
+    });
+
+    if (!provider) {
+      throw new Error("Fornecedor não existe");
     }
 
-    async getProviderById(id: string) {
-        const provider = await Provider.findOne({ 
-            where: { id: id }
-        });
+    return provider;
+  }
 
-        if (!provider) {
-            throw new Error('Fornecedor não existe');
-        }
+  async registerProviders(data: ProviderRegisterDTO) {
+    const { email } = data;
 
-        return provider;
+    const exists = await Provider.findOne({
+      where: { email: email },
+    });
+
+    if (exists) {
+      throw new Error("Email já existe");
     }
 
-    async registerProviders(data: ProviderRegisterDTO) {
-        const { email } = data;
+    const provider = await Provider.create(data);
 
-        const exists = await Provider.findOne({
-            where: { email: email },
-        });
+    return provider;
+  }
 
-        if (exists) {
-            throw new Error('Email já existe');
-        }
+  async updateProviders(data: ProviderRegisterDTO, id: string) {
+    const exists = await Provider.findOne({
+      where: { id: id },
+    });
 
-        const provider = await Provider.create(data);
-
-        return provider;
+    if (!exists) {
+      throw new Error("Fornecedor não existe");
     }
 
-    async deleteProviders(id: string) {
+    await Provider.update(data, {
+      where: { id: id },
+    });
 
-        const exists = await Provider.findOne({ 
-            where: { id: id }
-        });
+    return exists.name;
+  }
 
-        if (!exists) {
-            throw new Error('Fornecedor não existe');
-        }
+  async deleteProviders(id: string) {
+    const exists = await Provider.findOne({
+      where: { id: id },
+    });
 
-        await Provider.destroy({
-            where: { id: id }
-        });
+    if (!exists) {
+      throw new Error("Fornecedor não existe");
     }
 
+    await Provider.destroy({
+      where: { id: id },
+    });
+  }
 }
 
-export default new ProviderService;
+export default new ProviderService();

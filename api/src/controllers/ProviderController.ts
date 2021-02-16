@@ -16,6 +16,7 @@ class ProviderController {
 
             return response.status(200).json({ provider });
         } catch(err) {
+            console.log(err);
             return response.status(400).json({ error: err.message });
         }
     } 
@@ -26,7 +27,19 @@ class ProviderController {
 
             return response.status(201).json({ provider });
         } catch(err) {
-            console.log(err)
+            console.log(err);
+            return response.status(400).json({ error: err.message });
+        }
+    }
+
+    public async update (request: Request, response: Response, next: NextFunction): Promise<Response> {
+        try {
+            const name = await ProviderService.updateProviders(request.body, request.params.id);
+
+            return response.status(200).json({ message: `Dados do fornecedor ${name} atualizados` });
+
+        } catch(err) {
+            console.log(err);
             return response.status(400).json({ error: err.message });
         }
     }
@@ -38,7 +51,7 @@ class ProviderController {
             return response.status(200).json({ message: 'Fornecedor deletado' });
 
         } catch(err) {
-            console.log(err)
+            console.log(err);
             return response.status(400).json({ error: err.message });
         }
     }

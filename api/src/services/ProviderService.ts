@@ -1,9 +1,10 @@
 import { ProviderRegisterDTO } from "@dto/provider/ProviderDTO";
+import { ConflictError, NotFoundError } from "@helpers/response/Error";
 import { Provider } from "@models/Provider";
 
 class ProviderService {
   async findAll() {
-    const providers = await Provider.findAll();
+    const providers = await Provider.findAll({ limit: 5 });
 
     return providers;
   }
@@ -14,7 +15,7 @@ class ProviderService {
     });
 
     if (!provider) {
-      throw new Error("Fornecedor não existe");
+      throw new NotFoundError("Fornecedor não existe");
     }
 
     return provider;
@@ -28,7 +29,7 @@ class ProviderService {
     });
 
     if (exists) {
-      throw new Error("Email já existe");
+      throw new ConflictError("Email já existe");
     }
 
     const provider = await Provider.create(data);
@@ -42,7 +43,7 @@ class ProviderService {
     });
 
     if (!exists) {
-      throw new Error("Fornecedor não existe");
+      throw new NotFoundError("Fornecedor não existe");
     }
 
     await Provider.update(data, {
@@ -58,7 +59,7 @@ class ProviderService {
     });
 
     if (!exists) {
-      throw new Error("Fornecedor não existe");
+      throw new NotFoundError("Fornecedor não existe");
     }
 
     await Provider.destroy({

@@ -48,6 +48,24 @@ class ProductController {
         return response.status(StatusCode.INTERNAL_ERROR).json({ error: 'Erro no servidor' });
     }
 
+    public async showProductByProvidersId (request: Request, response: Response, next: NextFunction): Promise<Response> {
+        try {
+            const product = await ProductService.getProductIdByProvidersId(request.params.idProc, request.params.idProv);
+            return response.status(StatusCode.SUCCESS).json({ product });
+        } catch(err) {
+            console.log(err);
+            if (err instanceof ValidationError) {
+                return response.status(err.statusCode).json({ errors: err.errors });
+            }
+
+            if (err instanceof ServiceError) {
+                return response.status(err.statusCode).json({ error: err.message });
+            }
+        }
+
+        return response.status(StatusCode.INTERNAL_ERROR).json({ error: 'Erro no servidor' });
+    }
+
     public async store (request: Request, response: Response, next: NextFunction): Promise<Response> {
         try {
             const product = await ProductService.registerProducts(request.body);
@@ -67,12 +85,59 @@ class ProductController {
         return response.status(StatusCode.INTERNAL_ERROR).json({ error: 'Erro no servidor' });
     }
 
+    public async sell (request: Request, response: Response, next: NextFunction): Promise<Response> {
+        try {
+            const product = await ProductService.sellProduct(request.body.quantidade, request.params.id);
+
+            return response.status(StatusCode.SUCCESS).json({ product });
+        } catch (err) {
+            console.log(err);
+            if (err instanceof ValidationError) {
+                return response.status(err.statusCode).json({ errors: err.errors });
+            }
+
+            if (err instanceof ServiceError) {
+                return response.status(err.statusCode).json({ error: err.message });
+            }
+        }
+
+        return response.status(StatusCode.INTERNAL_ERROR).json({ error: 'Erro no servidor' });
+    }
+
     public async update (request: Request, response: Response, next: NextFunction): Promise<Response> {
-        return response.json({ message: 'Controle dos produtos' });
+        try {
+            const product = await ProductService.updateProducts(request.body, request.params.id)
+            return response.status(StatusCode.SUCCESS).json({ product });
+        } catch(err) {
+            console.log(err);
+            if (err instanceof ValidationError) {
+                return response.status(err.statusCode).json({ errors: err.errors });
+            }
+
+            if (err instanceof ServiceError) {
+                return response.status(err.statusCode).json({ error: err.message });
+            }
+        }
+
+        return response.status(StatusCode.INTERNAL_ERROR).json({ error: 'Erro no servidor' });
     }
 
     public async delete (request: Request, response: Response, next: NextFunction): Promise<Response> {
-        return response.json({ message: 'Controle dos produtos' });
+        try {
+            await ProductService.deleteProducts(request.params.id);
+            return response.status(StatusCode.SUCCESS).json({ message: `Produto ${request.params.id} deletado` });
+        } catch(err) {
+            console.log(err);
+            if (err instanceof ValidationError) {
+                return response.status(err.statusCode).json({ errors: err.errors });
+            }
+
+            if (err instanceof ServiceError) {
+                return response.status(err.statusCode).json({ error: err.message });
+            }
+        }
+
+        return response.status(StatusCode.INTERNAL_ERROR).json({ error: 'Erro no servidor' });
     }
 }
 

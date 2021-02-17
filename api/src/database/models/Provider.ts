@@ -46,7 +46,7 @@ Provider.beforeSave((provider) => {
 });
 
 Provider.sync()
-  .then((table) => console.log(`Tabela ${table} criada`))
+  .then(() => {})
   .catch((err) => {
     console.log(err);
   });

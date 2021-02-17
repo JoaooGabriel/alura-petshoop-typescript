@@ -8,6 +8,7 @@ class Product extends Model {
   id: string;
   name: string;
   value: string;
+  inventory: number;
   providerId: string;
 }
 

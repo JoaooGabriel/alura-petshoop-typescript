@@ -5,5 +5,5 @@ export interface IProvider {
 
 export enum ProviderCategory {
     RACAO = 'ração',
-    BRINQUEDO = 'brinquedo',
+    BRINQUEDO = 'brinquedos',
 }

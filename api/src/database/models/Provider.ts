@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 
 import connection from "../connections";
 import { ProviderCategory } from '@typing/Provider';
+import { Product } from '@models/Product';
 
 @Table
 class Provider extends Model {
@@ -40,6 +41,12 @@ Provider.init(
     sequelize: connection,
   }
 );
+
+Provider.hasMany(Product, {
+  sourceKey: "id",
+  foreignKey: "providerId",
+  constraints: false,
+});
 
 Provider.beforeSave((provider) => {
      provider.id = uuid();

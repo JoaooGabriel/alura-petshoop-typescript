@@ -47,13 +47,6 @@ Product.init(
   }
 );
 
-Product.hasMany(Product, {
-  sourceKey: "id",
-  foreignKey: "providerId",
-  constraints: false,
-  as: "providers",
-});
-
 Product.beforeSave((product) => {
   product.id = uuid();
 });

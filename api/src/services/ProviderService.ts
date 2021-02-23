@@ -1,6 +1,7 @@
 import { ProviderRegisterDTO } from "@dto/provider/ProviderDTO";
 import { ConflictError, NotFoundError } from "@helpers/response/Error";
 import { Provider } from "@models/Provider";
+import ProviderRepository from "@repositories/ProviderRepository";
 
 class ProviderService {
   async findAll() {
@@ -31,8 +32,8 @@ class ProviderService {
     if (exists) {
       throw new ConflictError("Email já existe");
     }
-
-    const provider = await Provider.create(data);
+    
+    const provider = await ProviderRepository.register(data);
 
     return provider;
   }

@@ -24,16 +24,31 @@ Provider.init(
     name: {
       type: DataType.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Campo name não pode ser vazio.'
+        }
+      }
     },
 
     email: {
       type: DataType.STRING,
       allowNull: false,
+      validate: {
+        isEmail: {
+          msg: 'Campo email precisar ser do tipo email.'
+        }
+      }
     },
 
     category: {
       type: DataType.ENUM(ProviderCategory.BRINQUEDO, ProviderCategory.RACAO),
-      allowNull: true
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Campo category não pode ser vazio.'
+        }
+      }
     },
   },
   {

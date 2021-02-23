@@ -38,6 +38,10 @@ class ProviderController {
             return response.status(StatusCode.CREATED).json({ provider });
         } catch(err) {
             console.log(err);
+            if (err) {
+                return response.status(StatusCode.BAD_REQUEST).json({ errors: err.message });
+            }
+
             if (err instanceof ValidationError) {
                 return response.status(err.statusCode).json({ errors: err.errors });
             }
